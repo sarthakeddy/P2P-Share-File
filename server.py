@@ -10,7 +10,7 @@ class mainServer(threading.Thread):
         threading.Thread.__init__(self)
         self.host = 'localhost'
         self.semaphore = Semaphore(max_connection)
-        self.port = 3456
+        self.port = 3458
         self.serv = socket.socket()
         print("Central server is live")
         self.serv.bind((self.host, self.port))
@@ -22,7 +22,7 @@ class mainServer(threading.Thread):
     def run(self):
         while True:
             client, addr = self.serv.accept()
-            print("Connected to", addr[0], ". Port at", addr[1])
+            print("Connected to", addr[0], "Port at", addr[1])
 
             request = pk.loads(client.recv(1024))
 

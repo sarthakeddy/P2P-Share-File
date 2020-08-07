@@ -3,6 +3,7 @@ import pickle
 import threading
 import socket
 from threading import *
+from peerShare import *
 
 
 class peerServer:
@@ -20,7 +21,7 @@ class peerServer:
                 self.file_name = input("Enter file name: ")
                 self.peer_port = int(peer_id)
                 self.register()
-                # start_listener(self.peer_port, 'loaclhost')
+                start_sharing(self.peer_port, 'localhost')
 
             elif choice == 2:
                 self.search()
@@ -41,7 +42,7 @@ class peerServer:
 
     def register(self):
         client = socket.socket()
-        client.connect(('localhost', 3456))
+        client.connect(('localhost', 3458))
         register_data = [1, self.peer_port, self.file_name]
         data = pickle.dumps(register_data)
         client.send(data)
@@ -51,7 +52,7 @@ class peerServer:
 
     def search(self):
         client = socket.socket()
-        client.connect(('localhost', 3456))
+        client.connect(('localhost', 3458))
         file_name = input("Enter file name: ")
         register_data = [2, file_name]
         data = pickle.dumps(register_data)
@@ -62,8 +63,8 @@ class peerServer:
 
     def list_all(self):
         client = socket.socket()
-        client.connect(('localhost', 3456))
-        data = pickle.dumps(str(3))
+        client.connect(('localhost', 3458))
+        data = pickle.dumps([3])
         client.send(data)
         state = pickle.loads(client.recv(1024))
         self.print_list(state[0], state[1])
@@ -79,14 +80,14 @@ class peerServer:
 
     def download(self, peer_id, file_name):
         client = socket.socket()
-        client.connect(('localhost', 3456))
+        client.connect(('localhost', 3458))
         list_data = [4, str(file_name)]
         data = pickle.dumps(list_data)
         client.send(data)
 
-        file_path = os.path.join(os.getcwd(), '..')
-        file_path = os.path.join(file_path, 'SharingFiles')
-        file_path = os.path.join(file_path, 'downloads')
+        # file_path = os.path.join(, '..')
+        file_path = os.path.join(os.getcwd(), 'SharingFiles')
+        file_path = os.path.join(file_path, 'Downloads')
 
         with open(os.path.join(file_path, file_name), 'wb') as myfile:
             while True:
