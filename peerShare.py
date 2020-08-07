@@ -21,7 +21,7 @@ class peerShare(threading.Thread):
             client, addr = self.clnt.accept()
             print("Got connection from", addr[0], " port at", addr[1])
             request = pickle.loads(client.recv(1024))
-            if request[0] == '4':
+            if request[0] == 4:
                 # file_path = os.path.join(os.getcwd(), '..')
                 file_path = os.path.join(os.getcwd(), 'SharingFiles')
                 file_path = os.path.join(file_path, 'Uploads')
@@ -35,10 +35,9 @@ class peerShare(threading.Thread):
                         while rd:
                             client.send(rd)
                             rd = myfile.read(1024)
-                        if not rd:
-                            myfile.close()
-                            client.close()
-                            break
+                        myfile.close()
+                        client.close()
+                        break
                 self.semaphore.release()
                 print('File Sent Successfully')
             else:

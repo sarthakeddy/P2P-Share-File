@@ -80,7 +80,7 @@ class peerServer:
 
     def download(self, peer_id, file_name):
         client = socket.socket()
-        client.connect(('localhost', 3458))
+        client.connect(('localhost', peer_id))
         list_data = [4, str(file_name)]
         data = pickle.dumps(list_data)
         client.send(data)
@@ -92,6 +92,7 @@ class peerServer:
         with open(os.path.join(file_path, file_name), 'wb') as myfile:
             while True:
                 data = client.recv(1024)
+                print(data)
                 if not data:
                     myfile.close()
                     break
