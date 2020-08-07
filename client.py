@@ -77,6 +77,27 @@ class peerServer:
             for item in files:
                 print(item[keys[0]],"  ",item[keys[1]], "    ", item[keys[2]])
 
+    def download(self, peer_id, file_name):
+        client = socket.socket()
+        client.connect(('localhost', 3456))
+        list_data = [4, str(file_name)]
+        data = pickle.dumps(list_data)
+        client.send(data)
+
+        file_path = os.path.join(os.getcwd(), '..')
+        file_path = os.path.join(file_path, 'SharingFiles')
+        file_path = os.path.join(file_path, 'downloads')
+
+        with open(os.path.join(file_path, file_name), 'wb') as myfile:
+            while True:
+                data = client.recv(1024)
+                if not data:
+                    myfile.close()
+                    break
+                myfile.write(data)
+        client.close()
+        print('File is downloaded successfully.')
+
 
 peer = peerServer()
 peer.start_server()
