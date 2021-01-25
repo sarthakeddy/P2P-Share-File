@@ -42,7 +42,7 @@ class peerServer:
 
     def register(self):
         client = socket.socket()
-        client.connect(('localhost', 3458))
+        client.connect(('localhost', 3456))
         register_data = [1, self.peer_port, self.file_name]
         data = pickle.dumps(register_data)
         client.send(data)
@@ -52,7 +52,7 @@ class peerServer:
 
     def search(self):
         client = socket.socket()
-        client.connect(('localhost', 3458))
+        client.connect(('localhost', 3456))
         file_name = input("Enter file name: ")
         register_data = [2, file_name]
         data = pickle.dumps(register_data)
@@ -63,7 +63,7 @@ class peerServer:
 
     def list_all(self):
         client = socket.socket()
-        client.connect(('localhost', 3458))
+        client.connect(('localhost', 3456))
         data = pickle.dumps([3])
         client.send(data)
         state = pickle.loads(client.recv(1024))
@@ -92,7 +92,7 @@ class peerServer:
         with open(os.path.join(file_path, file_name), 'wb') as myfile:
             while True:
                 data = client.recv(1024)
-                print(data)
+                print(data.decode("utf-8"))
                 if not data:
                     myfile.close()
                     break

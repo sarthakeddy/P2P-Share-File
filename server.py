@@ -10,7 +10,7 @@ class mainServer(threading.Thread):
         threading.Thread.__init__(self)
         self.host = 'localhost'
         self.semaphore = Semaphore(max_connection)
-        self.port = 3458
+        self.port = 3456
         self.serv = socket.socket()
         print("Central server is live")
         self.serv.bind((self.host, self.port))
