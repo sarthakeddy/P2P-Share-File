@@ -11,6 +11,7 @@ download (to download a particular file from given port at which it is available
 # Installation
 
 ### Running locally
+Follow given steps <br/>
     1. Clone or Download the repository.
         <pre>git clone https://github.com/sarthakeddy/P2P-Share-File.git
         cd P2P-Share-File</pre>
